@@ -1,9 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
+
 from blogapp.models import Post, Comment
 from blogapp.forms import PostForm, CommentForm
-form django.urls import reverse_lazy
+from django.urls import reverse_lazy
 
+
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin # login required but Class based views.
+
+
 
 from django.views.generic import (TemplateView, ListView, DetailView, CreateView,
                                   UpdateView, DeleteView)
@@ -82,9 +88,56 @@ class DraftListView(LoginRequiredMixin, ListView):
 
 
     login_url = '/login' # redirect to login page if not logged in
-    redirect_field_name = 'blog/post_list.html' # direct to post list.
+    redirect_field_name = 'blogapp/post_list.html' # direct to post list.
 
     model = Post
 
     def get_queryset(self):
         return Post.objects.filter(published_date__isnull=True)).order_by('created_date')
+
+################################################################################
+#                               CRUD - comment views                           #
+################################################################################
+
+@login_required()
+def post_publish(request,pk):
+    post = get_object_or_404(Post, pk=pk)# get object or return a 404 error if not found
+    post.publish #publish the post
+    return redirect('post_detail', pk=pk) # send you back to the correspond post
+
+@login_required # only allows the user to see this page if they are logged in
+def add_comment_to_post(request, pk):
+    #DESCRIPTION:
+    # method of adding a comment to a selected blog post
+    post = get_object_or_404(Post, pk=pk) # get the object, if not found return a 404 page
+
+    if request.method = 'POST': # checks if there is a post request
+        form = CommentForm(request.Post) #if true, input post info into from
+        if form.is_valid(): #  return valid then
+            comment = form.save(commit=False) # save the froms but
+            comment.post = post# ensureing there is no repeated saved data in the db because there is already a post in the DB
+            comment.save() # actaully save it
+            return redirect('post_detail', pk=post.pk) # redirect to the primary page having the post set to the primary key
+    else:
+        form = CommentForm()
+    return render(request, 'blogapp/comment_form.html', {'form':form})
+
+@login_required()
+def comment_approve:
+    #DESCRIPTION:
+    # method that gives the user to option to approve a comment or not
+    comment = get_object_or_404(Comment,pk=pk) # get he object or retunr 404 error
+    comment.approve()# using the approved method set in the comment model - setting true or false
+    return redirect('post_detail', pk=comment.post.pk) # getting the primary key of the post the comment is connected to in the models.
+
+
+@login_required()
+def comment_remove(request, pk):
+    #DESCRIPTION:
+    # gives the user the option to delete a selected comment.
+    commnet = get_object_or_404(Comment, pk=pk)
+    post_pk =comment.post.pk # you are setting it as a variable because by the time
+    # you redirect the pk, it will be already have been deleted by the code below.
+    # that why we have it set as a variable.
+    comment.delete()
+    return redirect('post_detail', pk=post_pk)
