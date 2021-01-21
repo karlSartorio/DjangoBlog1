@@ -50,7 +50,7 @@ class Comment(models.Model):
     # contain similar features - auther, text and created. adding on an attribute
     # aproved comment.
     post =  models.ForeignKey('blogapp.Post', related_name='comments')# each commont is connected to a post
-    auther = models.CharField(max_lenght=200)
+    author = models.CharField(max_lenght=200)
     text = models.TextField
     created_date = models.DateTimeField(default=timezone.now())
     approved_comment = mdoels.BooleanField(default=False)
