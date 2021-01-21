@@ -14,9 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import views # views from this app
 from django.urls import path, include
-import blogapp import views
+from  blogapp import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blogapp.urls')),
+    path('accounts/login/', view.login, name ='login'),
+    path('accounts/logout/', views.logout, name='logout', kwargs={'nextpage':'/'}) # when you log out it will send you to the home page.
 ]
