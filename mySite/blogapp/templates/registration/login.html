@@ -1,0 +1,23 @@
+{%extends 'blogapp/base.html'%}
+{%block content%}
+<!-- have to create the forms manually -->
+<div class="jumbotron">
+  <h2>Please Login:</h2>
+  <h3>(Must be a 'Super' User, please check with the site admin) </h3>
+
+  {%if form.errors%}
+    <p>You're Username and Password didn't match! Please try again! </p>
+  {%endif%}
+  <form class="" action="{%url 'login'%}" method="POST">
+    {%csrf_token%}
+      {%form.as_p%}
+      <input type="submit" class="btn btn-primary" value="Submit">
+
+      <!-- hidden input, needed because of the view we are dealing with -->
+      <input type="hidden" name="next" value="{{next}}">
+  </form>
+
+</div>
+
+
+{%endblock%}
