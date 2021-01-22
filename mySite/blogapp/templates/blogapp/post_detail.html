@@ -1,4 +1,61 @@
 {%extends 'blogapp/base.html'%}
 {%block content%}
+  <h1>{{post.title}}</h1>
+  {%if post.publish_date%}
+  <!-- if there is a post date, inject the published date -->
+    <div class="date postdate">
+      {{post.publish_date}}
+    </div>
+  {%else%}
+  <!-- if not published, give option to publish -->
+  <a class btn btn-default href="{%url 'post_publish' pk=post.pk%}">Publish</a>
+  {%endif%}
+  <!-- now using the medium editor  -->
+  <p class='postcontent'>{{post.title|safe|linebreakbr}}</p>
 
+  {%if user.is_authenticated%}
+  <!-- if the user is authenicated we have two buttons to edit or remove the post -->
+  <a class='btn btn-primary'href="{%url 'post_edit' pk=post.pk%}">
+    <span class='glyphicon glyphicon-pencil'></span>
+  </a>
+  <a class= 'btn btn-danger' href="{%url 'post_remove' pk=post.pk%}">
+    <span class='glyphicon glyphicon-remove'></span>
+  </a>
+  {%endif}
+
+  <!-- now give a user an option to write a comment to the post -->
+  <hr>
+  <a class="btn btn-primary btn-comment" href="{%url 'add_comment_to_post' pk=post.pk%}">comment</a>
+  <div class="container">
+    {%for comment_to_post.all %}
+      <br>
+      <!-- check if the comment is approve or if the user is authenitcated -->
+      {%if user.is_authenticated or comment.comment_approve%}
+        <!--show the comment date created  -->
+        {{comment.created_date}}
+
+        <!-- if not approved comment -->
+        {%if not comment.approve_comment %}
+        <!-- give option to approve or delete comment -->
+        <a class='btn btn-primary'href="{%url 'comment_approve' pk=comment.pk%}">
+          <span class='glyphicon glyphicon-ok'></span>
+        </a>
+        <a class= 'btn btn-default' href="{%url 'comment_remove' pk=comment.pk%}">
+          <span class='glyphicon glyphicon-remove'></span>
+        </a>
+
+        {%endif%}
+        <!-- show the text of the comment -->
+        <p>{{comment.text|safe|linebreakbr}}</p>
+        <!-- show the auther of the comment -->
+        <p>posted by: {{comment.author}}</p>
+      {%endif%}
+      <!-- if the check for comment returns null we use a tempalate tag to check if it empty-->
+      {%empty%}
+        <p>No Comments</p>
+
+
+    {%endfor%}
+
+  </div>
 {%endblock%}
