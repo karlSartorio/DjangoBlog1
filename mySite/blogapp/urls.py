@@ -5,7 +5,7 @@ app_name = 'blogapp'
 
 urlpatterns = [
     path('aboutus/',views.AboutUsView.as_view(), name='aboutus'),
-    path('', views.PostListView.as_view(), name='homepage'),
+    path('', views.PostListView.as_view(), name='post_list'),
     path('post/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
     # when a user click on a blog it will get the pk for it then, it will send that pk with the post
     # then it will then find the Pk in the model and give the infromation back from the model.

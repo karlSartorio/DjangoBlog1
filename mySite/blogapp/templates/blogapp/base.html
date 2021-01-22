@@ -1,10 +1,83 @@
 <!DOCTYPE html>
+{%load static%}
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Blog</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Medium style editor -->
+    <!-- allows us to web text editing features - EDUCATIONAL USE ONLY -->
+    <!-- https://github.com/yabwe/medium-editor  -->
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+
+    <!-- Custom CSS -->
+    <!-- links to the static file, css file -->
+    <link rel="stylesheet" href="{%static 'css/blogapp.css'%}">
+
+    <!-- Fonts -->
+    <!-- https://fonts.google.com/ for more font choices -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+
   </head>
   <body>
+    <!-- Nav Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark techFont custom-navbar ">
+  <a class="navbar-brand bigBrand" href="{%url 'post_list'%}">K's Blog #1</a>
+  <div class="collapse navbar-collapse" id='navbarNav'>
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item ">
+        <a class="nav-link" href="{%url 'aboutus'%}">About Us </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/karlSartorio">Personal Github</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://www.linkedin.com/in/karl-sartorio/">Personal LinkedIn</a>
+      </li>
+
+      <ul class='nav navbar-nav navbar-right'>
+        {%if user.is_authenticated%}
+        <li class="nav-item">
+          <a class="nav-link" href="{%url 'post_new'%}">New Post</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{%url 'post_draft_list'%}">Drafts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{%url 'logout'%}">Log Out</a>
+        </li>
+        <li><a>Welcome: {{user.username}}</a></li>
+        {{else}}
+        <li class="nav-item">
+          <a class="nav-link" href="{%url 'login'%}">
+            <span class='glyphicon glyphicon-user'></span>
+          </a>
+        </li>
+        {%endif%}
+
+      </ul>
+    </ul>
+  </div>
+</nav>
+
+<div class="content container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="blog_posts">
+          {%block body_block)%}
+          {%endblock%}
+        </div>
+      </div>
+    </div>
+</div>
+
+
 
   </body>
 </html>
