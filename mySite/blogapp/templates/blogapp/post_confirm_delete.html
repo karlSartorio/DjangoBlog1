@@ -1,4 +1,10 @@
 {%extends 'blogapp/base.html'%}
 {%block content%}
+<!--once you click on the delete view there should be some success url that confirms the deletions -->
+  <form method="post">
+    {%csrf_token%}
+    <p>are you sure you want to delete? {{object}} </p>
+    <input type="submit" class="btn btn-danger" value="Delete">
+  </form>
 
 {%endblock%}

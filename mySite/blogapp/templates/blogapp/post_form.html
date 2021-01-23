@@ -1,4 +1,16 @@
 {%extends 'blogapp/base.html'%}
 {%block content%}
+<h2> New Blog Post</h2>
+<form class="post-form" action="index.html" method="POST">
+  {%csrf_token%}
+  {{form.as_p}}
+  <button type="submit" class='save btn btn-default'> Save </button>
+  </form>
+  <!-- now im going to have use the medium editor -->
+  <script>
+  var editor = new MediaEditor('.editable');
+  // what was instructed by the medium editor documentation to allow use of is_authenticated
+  // third party product.  The MediaEditor call is attach to the forms.py in the wedget dict set.
+  </script>
 
 {%endblock%}
