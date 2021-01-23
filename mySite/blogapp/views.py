@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
 from blogapp.models import Post, Comment
-from blogapp.forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm
 from django.urls import reverse_lazy
 
 
@@ -30,7 +30,7 @@ class PostListView(ListView):
     #DESCRIPTION
     # this class method will define the list - how its going to get info from
     # model the. this allows django's ORM or allows to use SQL query into the model
-    return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+        return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
     ## NOTE:
     # something to note about this code: this code gets all the object in the model, filters them using the published_date.
     # next to continue on, '__' you can set the field conditions. for this instance its 'lte' - less than or equal to.
@@ -93,7 +93,7 @@ class DraftListView(LoginRequiredMixin, ListView):
     model = Post
 
     def get_queryset(self):
-        return Post.objects.filter(published_date__isnull=True)).order_by('created_date')
+        return Post.objects.filter(published_date__isnull=True).order_by('created_date')
 
 ################################################################################
 #                               CRUD - comment views                           #
@@ -111,7 +111,7 @@ def add_comment_to_post(request, pk):
     # method of adding a comment to a selected blog post
     post = get_object_or_404(Post, pk=pk) # get the object, if not found return a 404 page
 
-    if request.method = 'POST': # checks if there is a post request
+    if request.method == 'POST': # checks if there is a post request
         form = CommentForm(request.Post) #if true, input post info into from
         if form.is_valid(): #  return valid then
             comment = form.save(commit=False) # save the froms but
@@ -123,7 +123,7 @@ def add_comment_to_post(request, pk):
     return render(request, 'blogapp/comment_form.html', {'form':form})
 
 @login_required()
-def comment_approve:
+def comment_approve(request, pk):
     #DESCRIPTION:
     # method that gives the user to option to approve a comment or not
     comment = get_object_or_404(Comment,pk=pk) # get he object or retunr 404 error

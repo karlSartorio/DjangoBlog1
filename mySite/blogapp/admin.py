@@ -8,4 +8,3 @@ admin.site.register(Comment)
 #create a super user.
 # Username:     karl
 # email:       k@rl.com
-#password:     testPassword
