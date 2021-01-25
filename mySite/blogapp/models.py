@@ -30,7 +30,7 @@ class Post(models.Model):
         #DESCRIPTION:
         # once you created an instance of the post, this method would send you
         # back to the post detail pafe with the pk correspond to it.
-        return reverse('post_detail', kwargs={'pk':self.pk})
+        return reverse('blogapp:post_detail', kwargs={'pk':self.pk})
 
     def approve_comments(self):
     #DESCRIPTION:
@@ -65,7 +65,7 @@ class Comment(models.Model):
     #Description:
     # When the user posted a commoned on a blog post. it will send that user
     # back to webapge that contains all the blog post.
-        return reverse('post_list')
+        return reverse('blogapp:post_list')
 
     def __str__(self):
         # DESCRIPTION:

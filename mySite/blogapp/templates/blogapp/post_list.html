@@ -1,15 +1,15 @@
 {%extends 'blogapp/base.html'%}
 {%block content%}
 <div class="centerstage">
-  {%for post in post_list%}
+  {%for post in posts%}
   <div class="post">
-    <h2><a href="{%url 'post_detail' pk=post.pk%}">{{post.title}}</a>    </h2>
+    <h2><a href="{%url 'blogapp:post_detail' pk=post.pk%}">{{post.title}}</a></h2>
       <!-- what this codes: takes you the the post detail where that post detail with that PK is being return from post.post_list -->
       <div class="date">
         <p>Published on: {{post.published|date:"D M Y"}}</p>
         <!-- get the published date and show it in the format of - D M Y  -->
       </div>
-      <a href="{%url 'post_detail' pk=post.pk %}">Comments: {{post.approve_comments.count}}</a>
+      <a href="{%url 'blogapp:post_detail' pk=post.pk %}">Comments: {{post.approve_comments.count}}</a>
       <!-- direct them to the post like, as well as show the about of comments made in the correspond post -->
   </div>
 
