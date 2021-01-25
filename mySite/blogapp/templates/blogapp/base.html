@@ -27,50 +27,33 @@
   </head>
   <body>
     <!-- Nav Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark techFont custom-navbar ">
-  <a class="navbar-brand bigBrand" href="{%url 'post_list'%}">K's Blog #1</a>
-  <div class="collapse navbar-collapse" id='navbarNav'>
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item ">
-        <a class="nav-link" href="{%url 'aboutus'%}">About Us </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://github.com/karlSartorio">Personal Github</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://www.linkedin.com/in/karl-sartorio/">Personal LinkedIn</a>
-      </li>
-
-      <ul class='nav navbar-nav navbar-right'>
-        {%if user.is_authenticated%}
-        <li class="nav-item">
-          <a class="nav-link" href="{%url 'post_new'%}">New Post</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{%url 'post_draft_list'%}">Drafts</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{%url 'logout'%}">Log Out</a>
-        </li>
-        <li><a>Welcome: {{user.username}}</a></li>
-        {{else}}
-        <li class="nav-item">
-          <a class="nav-link" href="{%url 'login'%}">
-            <span class='glyphicon glyphicon-user'></span>
-          </a>
-        </li>
-        {%endif%}
-
-      </ul>
-    </ul>
-  </div>
-</nav>
+      <nav class="navbar navbar-expand-lg bg-light techfont">
+        <div class="container">
+          <div class="navbar-nav align-items-center">
+            <a class="navbar-brand bigbrand" href="{% url 'blogapp:post_list' %}">My Tech blog</a>
+            <a class="nav-item nav-link" href="{% url 'blogapp:aboutus' %}">About</a>
+            <a class="nav-item nav-link" href="https://github.com/karlSartorio">Github</a>
+            <a class="nav-item nav-link" href="https://www.linkedin.com/in/karl-sartorio/">LinkedIn</a>
+          </div>
+          <div class="navbar-nav align-items-center ml-auto">
+            {% if user.is_authenticated %}
+              <a class="nav-item nav-link" href="{% url 'blogapp:post_new' %}">New Post</a>
+              <a class="nav-item nav-link" href="{% url 'blogapp:post_draft_list' %}">Drafts</a>
+              <a class="nav-item nav-link" href="{% url 'logout' %}">Log out</a>
+              <a >Welcome: {{ user.username }}</a>
+            {% else %}
+              <a class="nav-item nav-link" href="{% url 'login' %}" aria-label="Login">Login</a>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
 
 <div class="content container">
     <div class="row">
       <div class="col-md-8">
         <div class="blog_posts">
-          {%block body_block)%}
+          {%block content%}
+
           {%endblock%}
         </div>
       </div>

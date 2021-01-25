@@ -1,4 +1,4 @@
-"""mySite URL Configuration
+"""mySite URL CoLoginViewnfiguration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -16,11 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views # views from this app
 from django.urls import path, include
-from  blogapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blogapp.urls')),
-    path('accounts/login/', view.login, name ='login'),
-    path('accounts/logout/', views.logout, name='logout', kwargs={'nextpage':'/'}) # when you log out it will send you to the home page.
+    path('accounts/login/', views.LoginView.as_view(), name ='login'),
+    path('accounts/logout/', views.LogoutView.as_view(), name='logout', kwargs={'nextpage':'/'}), # when you log out it will send you to the home page.
 ]
