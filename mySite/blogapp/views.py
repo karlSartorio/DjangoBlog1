@@ -79,7 +79,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
     # you need to have a success redirect url
 
     model = Post
-    success_url = reverse_lazy('post_list') # once the user deletes the blogm send back to the list of blogs
+    success_url = reverse_lazy('blogapp:post_list') # once the user deletes the blogm send back to the list of blogs
 ####################################END OF POST C*UD#####################################
 
 class DraftListView(LoginRequiredMixin, ListView):
@@ -89,7 +89,8 @@ class DraftListView(LoginRequiredMixin, ListView):
 
 
     login_url = '/login' # redirect to login page if not logged in
-    redirect_field_name = 'blogapp/post_list.html' # direct to post list.
+    redirect_field_name = 'blogapp/post_draft_list.html' # direct to post list.
+    context_object_name = 'posts'
 
     model = Post
 
