@@ -1,10 +1,10 @@
 {% extends 'blogapp/base.html' %}
 {% block content %}
   <h1>{{post.title}}</h1>
-  {% if post.publish_date %}
+  {% if post.published_date %}
   <!-- if there is a post date, inject the published date -->
     <div class="date postdate">
-      {{post.publish_date}}
+      {{post.published_date}}
     </div>
   {%else%}
   <!-- if not published, give option to publish -->
@@ -27,7 +27,7 @@
   <hr>
   <a class="btn btn-primary btn-comment" href="{%url 'blogapp:add_comment_to_post' pk=post.pk%}">comment</a>
   <div class="container">
-    {%for comment in comment_to_post.all %}
+    {%for comment in post.comments.all %}
       <br>
       <!-- check if the comment is approve or if the user is authenitcated -->
       {% if user.is_authenticated or comment.comment_approve %}
@@ -35,20 +35,20 @@
         {{comment.created_date}}
 
         <!-- if not approved comment -->
-        {% if not comment.approve_comment %}
+        {% if not comment.comment_approve %}
         <!-- give option to approve or delete comment -->
         <a class='btn btn-primary'href="{%url 'blogapp:comment_approve' pk=comment.pk%}">
           Approve
         </a>
         <a class= 'btn btn-default' href="{%url 'blogapp:comment_remove' pk=comment.pk%}">
-          Delete</span>
+          Delete
         </a>
 
         {% endif %}
         <!-- show the text of the comment -->
-        <p>{{comment.text|safe|linebreaksbr}}</p>
+        <p>{{comment.text|safe|linebreaks}}</p>
         <!-- show the auther of the comment -->
-        <p>posted by: {{comment.author}}</p>
+        <p>Posted by:<strong> {{comment.author}}</strong></p>
       {%endif%}
       <!-- if the check for comment returns null we use a tempalate tag to check if it empty-->
     {%empty%}
