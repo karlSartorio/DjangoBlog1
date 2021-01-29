@@ -1,15 +1,14 @@
-{%extends 'blogapp/base.html'%}
-{%block content%}
-<h1> test</h1>
-  {%for post in posts %}
+{% extends 'blogapp/base.html' %}
+{% block content %}
+  {% for post in posts %}
   <!-- looks at all the post in post -->
   <div class="post">
-    <p class='date'> created: {{post.created_date|| date: 'd-m-y'}}</p>
+    <p class="date"> created: {{ post.created_date|date: 'd-m-Y' }}</p>
     <!-- get the date the post has been created  -->
     <h2><a href="{%url 'blogapp:post_detail' pk=post.pk%}">{{post.title}}</a>  </h2>
       <!-- takes you to the correspodnding post page -->
-      <p>{{post.text|| truncatechars:200}}</p>
+      <p>{{post.text|truncatechars:200}}</p>
       <!-- truncate some characters so you wont be able to see everything -->
   </div>
-  {%endfor%}
-{%endblock%}
+  {% endfor %}
+{% endblock %}

@@ -66,7 +66,7 @@ class PostUpateView(LoginRequiredMixin, UpdateView):
     #DESCRIPTION:
     # The same as the Create view, as you are simply recreating the same post.
 
-    login_url = '/login'# if a user want to create a post and not logged in, it will redirect them to the login page
+    login_url = '/login/'# if a user want to create a post and not logged in, it will redirect them to the login page
     redirect_field_name = 'blogapp/post_detail.html' # redirect them to detail view if logged in
 
     form_class = PostForm # connect the form.py to show input the forms we defined.
@@ -79,7 +79,7 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
     # you need to have a success redirect url
 
     model = Post
-    success_url = reverse_lazy('post_list') # once the user deletes the blogm send back to the list of blogs
+    success_url = reverse_lazy('blogapp:post_list') # once the user deletes the blogm send back to the list of blogs
 ####################################END OF POST C*UD#####################################
 
 class DraftListView(LoginRequiredMixin, ListView):
@@ -89,7 +89,8 @@ class DraftListView(LoginRequiredMixin, ListView):
 
 
     login_url = '/login' # redirect to login page if not logged in
-    redirect_field_name = 'blogapp/post_list.html' # direct to post list.
+    redirect_field_name = 'blogapp/post_draft_list.html' # direct to post list.
+    context_object_name = 'posts'
 
     model = Post
 
@@ -129,16 +130,16 @@ def comment_approve(request, pk):
     # method that gives the user to option to approve a comment or not
     comment = get_object_or_404(Comment,pk=pk) # get he object or retunr 404 error
     comment.approve()# using the approved method set in the comment model - setting true or false
-    return redirect('post_detail', pk=comment.post.pk) # getting the primary key of the post the comment is connected to in the models.
+    return redirect('blogapp:post_detail', pk=comment.post.pk) # getting the primary key of the post the comment is connected to in the models.
 
 
 @login_required()
 def comment_remove(request, pk):
     #DESCRIPTION:
     # gives the user the option to delete a selected comment.
-    commnet = get_object_or_404(Comment, pk=pk)
-    post_pk =comment.post.pk # you are setting it as a variable because by the time
+    comment = get_object_or_404(Comment, pk=pk)
+    post_pk = comment.post.pk # you are setting it as a variable because by the time
     # you redirect the pk, it will be already have been deleted by the code below.
     # that why we have it set as a variable.
     comment.delete()
-    return redirect('post_detail', pk=post_pk)
+    return redirect('blogapp:post_detail', pk=post_pk)
